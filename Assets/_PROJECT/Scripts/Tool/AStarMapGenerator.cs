@@ -10,7 +10,7 @@ public class AStarMapGenerator : OdinEditorWindow
     /// <summary>
     /// function to open custom window on unity
     /// </summary>
-    [MenuItem("PercasTest/AStarMapGenerator")]
+    [MenuItem("QuocAnhHoangCustomTool/AStarMapGenerator")]
     private static void OpenWindow()
     {
         GetWindow<AStarMapGenerator>().Show();
