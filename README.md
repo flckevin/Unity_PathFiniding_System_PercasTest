@@ -27,3 +27,5 @@ A new window shall pop up with a list contanining information of<br>
   <li>AI Speed -> speed of AI Movement</li>
   <li>Off set -> which is off set for x and y axis of the map position</li>
 </ol>
+<br>
+![Image](https://github.com/user-attachments/assets/82a859c9-faff-4590-88b2-ca0a7f186b12)
