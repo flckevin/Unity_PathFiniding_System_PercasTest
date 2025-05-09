@@ -35,7 +35,6 @@ A new window shall pop up with a list contanining information of<br>
 
 ## HOW TO GENERATE MAP
 <ins> </ins>
-<br>
 Now you know where to navigate the window but before you can generate a map<br>
 you will need to fill up data in json file then generate it<br>
 
