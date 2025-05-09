@@ -27,9 +27,11 @@ public class AStarMapGenerator : OdinEditorWindow
     private Node _nodePrefab => Resources.Load<Node>("Node");   //getting node prefab from resource folder
     private GameObject _nodeParent;                             //parent of all nodes so it will have a cleaner visual on hierachy
     private List<Node> _nodeList = new List<Node>();            //a list containing all the generated nodes
-
+    private MapInfo _mapInfo;                                   //info of the map
+    
     // ===> JSON
     private RootJson _jsonData;                                 //json data file for tiles posiiton
+    
     //======================== PRIVATE VAR ========================
 
     /// <summary>
@@ -54,6 +56,10 @@ public class AStarMapGenerator : OdinEditorWindow
         if(_nodeParent != null) DestroyImmediate(_nodeParent);
         //creating new gameobject of node parent
         _nodeParent = new GameObject("Node_Parent");
+        //add map info into the node
+        _nodeParent.AddComponent<MapInfo>();
+        //get map info from ndoe parent
+        _mapInfo = _nodeParent.GetComponent<MapInfo>();
     }
 
     /// <summary>
@@ -83,14 +89,35 @@ public class AStarMapGenerator : OdinEditorWindow
                 {
                     case 0:
                     //call path creator function
-                    CreateNodes_SpawnPath(x,y);
+                    CreateNodes_SpawnPath(x,y,PathType.path,Color.white);
                     break;
 
                     case 1:
                     //create Obstacle
-                    CreateNodes_ObstacleSpawner(x,y,Color.gray);
+                    GameObject _object = CreateNodes_ObjectSpawner(Color.gray,"Wall");
+                    //set position for the wall
+                    _object.transform.position = new Vector2(x,y);
+                    //set parent for the wall
+                    _object.transform.parent = _nodeParent.transform;
                     break;
 
+                    case 6:
+                    //call path creator function
+                    CreateNodes_SpawnPath(x,y,PathType.path,Color.white);
+                    //create AI Object
+                    GameObject _AI = CreateNodes_ObjectSpawner(Color.green,"AI");
+                    //add AI behaviour
+                    _AI.AddComponent<AIBehaviour>();
+                    //add ai into map info
+                    _mapInfo.AI = _AI.GetComponent<AIBehaviour>();
+                    //parent into map
+                    _AI.transform.parent = _mapInfo.transform;
+                    break;
+
+                    case 7:
+                    //call path creator function
+                    CreateNodes_SpawnPath(x,y,PathType.goal,Color.red);
+                    break;
                 }
                 
             }
@@ -102,7 +129,7 @@ public class AStarMapGenerator : OdinEditorWindow
     /// </summary>
     /// <param name="_x">x position</param>
     /// <param name="_y">y postiion</param>
-    private void CreateNodes_SpawnPath(int _x, int _y)
+    private void CreateNodes_SpawnPath(int _x, int _y,PathType _pathType,Color _spriteColor)
     {
         //spawning new nodes
         Node _spawnedNode = Instantiate(_nodePrefab);
@@ -117,7 +144,21 @@ public class AStarMapGenerator : OdinEditorWindow
         _spawnedNode.transform.parent = _nodeParent.transform;
         //store that node into node list
         _nodeList.Add(_spawnedNode);
+        //add node into map
+        _mapInfo.allNode.Add(_spawnedNode);
+
+        //change color
+        _spawnedNode.GetComponent<SpriteRenderer>().color = _spriteColor;
+
+        //if pathtype is goal
+        if(_pathType == PathType.goal)
+        {
+            //then set goal for map info
+            _mapInfo.targetNode = _spawnedNode;
+            
+        }
     }
+
     
     /// <summary>
     /// function to create node obstacle and image with it 
@@ -125,30 +166,27 @@ public class AStarMapGenerator : OdinEditorWindow
     /// <param name="_x"> x position </param>
     /// <param name="_y"> y position </param>
     /// <param name="_color"> color of the obstacle </param>
-    private void CreateNodes_ObstacleSpawner(int _x, int _y,Color _color)
+    private GameObject CreateNodes_ObjectSpawner(Color _color,string _name)
     {
         //create new object with name wall
-        GameObject wall_G = new GameObject ("Wall");
+        GameObject _object = new GameObject (_name);
         //add sprite renderer into it so we can render sprite
-        SpriteRenderer spriteRenderer = wall_G.AddComponent<SpriteRenderer> ();
+        SpriteRenderer _objectSpriteRenderer = _object.AddComponent<SpriteRenderer> ();
         //create new texture so we can have an image
-        Texture2D texture = new Texture2D(100,100);
+        Texture2D _objectTexture = new Texture2D(100,100);
         //set pixel for that whole texture with chosen color
-        texture.SetPixel(0, 0, _color);
+        _objectTexture.SetPixel(0, 0, _color);
         //apply all of it into sprite renderer
-        texture.Apply();
+        _objectTexture.Apply();
         //create new sprite so we can put it into renderer
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f,0.5f));
+        Sprite _objectSprite = Sprite.Create(_objectTexture, new Rect(0, 0, _objectTexture.width, _objectTexture.height), new Vector2(0.5f,0.5f));
 
         //set sprite to sprite renderer
-        spriteRenderer.sprite = sprite;
+        _objectSpriteRenderer.sprite = _objectSprite;
         //set color to sprite renderer
-        spriteRenderer.color = _color;
+        _objectSpriteRenderer.color = _color;
 
-        //set position for the wall
-        wall_G.transform.position = new Vector2(_x,_y);
-        //set parent for the wall
-        wall_G.transform.parent = _nodeParent.transform;
+        return _object;
     }
     
 
@@ -178,11 +216,6 @@ public class AStarMapGenerator : OdinEditorWindow
         }
     }
 
-
-    private void AISpawner()
-    {
-
-    }
   
     #region  ============ HELPER FUNCTIONS ============
 
@@ -212,3 +245,9 @@ public class RootJson
     public List<MapDataX> mapData = new List<MapDataX>();
 }
 #endregion
+
+public enum PathType
+{
+    path,
+    goal,
+}
