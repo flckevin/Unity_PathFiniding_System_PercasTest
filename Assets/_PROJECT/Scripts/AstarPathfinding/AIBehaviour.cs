@@ -7,7 +7,7 @@ public class AIBehaviour : MonoBehaviour
     public Node currentNode;
     public Node targetNode;
     public List<Node> path = new List<Node>();
-    public int moveSpeed;
+    public float moveSpeed;
 
     // Update is called once per frame
     void Update()

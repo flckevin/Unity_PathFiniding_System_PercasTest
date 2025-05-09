@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector.Editor;
 using UnityEngine;
@@ -11,7 +10,7 @@ public class AStarMapGenerator : OdinEditorWindow
     /// <summary>
     /// function to open custom window on unity
     /// </summary>
-    [MenuItem("PercasTest/MapGenerator")]
+    [MenuItem("PercasTest/AStarMapGenerator")]
     private static void OpenWindow()
     {
         GetWindow<AStarMapGenerator>().Show();
@@ -19,7 +18,8 @@ public class AStarMapGenerator : OdinEditorWindow
 
     [Header("AStar_Properties")]
     public TextAsset jsonLevel; //json file to read
-    public Vector2Int offSet;      //offset position for the whole map so it can be center at a poisiton as user like
+    public float aiSpeed;       //speed of ai movement
+    public Vector2Int offSet;   //offset position for the whole map so it can be center at a poisiton as user like
     
     //======================== PRIVATE VAR ========================
     
@@ -89,12 +89,12 @@ public class AStarMapGenerator : OdinEditorWindow
                 {
                     case 0:
                     //call path creator function
-                    CreateNodes_SpawnPath(x,y,PathType.path,Color.white);
+                    CreateNodes_SpawnPath(x,y,PathType.path,Color.white,0);
                     break;
 
                     case 1:
                     //create Obstacle
-                    GameObject _object = CreateNodes_ObjectSpawner(Color.gray,"Wall");
+                    GameObject _object = CreateNodes_ObjectSpawner(Color.gray,"Wall",1);
                     //set position for the wall
                     _object.transform.position = new Vector2(x,y);
                     //set parent for the wall
@@ -103,20 +103,22 @@ public class AStarMapGenerator : OdinEditorWindow
 
                     case 6:
                     //call path creator function
-                    CreateNodes_SpawnPath(x,y,PathType.path,Color.white);
+                    CreateNodes_SpawnPath(x,y,PathType.start,Color.white,0);
                     //create AI Object
-                    GameObject _AI = CreateNodes_ObjectSpawner(Color.green,"AI");
+                    GameObject _AI = CreateNodes_ObjectSpawner(Color.green,"AI",2);
                     //add AI behaviour
                     _AI.AddComponent<AIBehaviour>();
                     //add ai into map info
                     _mapInfo.AI = _AI.GetComponent<AIBehaviour>();
                     //parent into map
                     _AI.transform.parent = _mapInfo.transform;
+                    //set ai speed
+                    _mapInfo.AI.moveSpeed = aiSpeed;
                     break;
 
                     case 7:
                     //call path creator function
-                    CreateNodes_SpawnPath(x,y,PathType.goal,Color.red);
+                    CreateNodes_SpawnPath(x,y,PathType.goal,Color.red,0);
                     break;
                 }
                 
@@ -129,7 +131,7 @@ public class AStarMapGenerator : OdinEditorWindow
     /// </summary>
     /// <param name="_x">x position</param>
     /// <param name="_y">y postiion</param>
-    private void CreateNodes_SpawnPath(int _x, int _y,PathType _pathType,Color _spriteColor)
+    private void CreateNodes_SpawnPath(int _x, int _y,PathType _pathType,Color _spriteColor,int _sortingOrder)
     {
         //spawning new nodes
         Node _spawnedNode = Instantiate(_nodePrefab);
@@ -147,15 +149,24 @@ public class AStarMapGenerator : OdinEditorWindow
         //add node into map
         _mapInfo.allNode.Add(_spawnedNode);
 
+        SpriteRenderer _spawnedNodeSpriteRend = _spawnedNode.GetComponent<SpriteRenderer>();
         //change color
-        _spawnedNode.GetComponent<SpriteRenderer>().color = _spriteColor;
+        _spawnedNodeSpriteRend.color = _spriteColor;
+        //change layer
+        _spawnedNodeSpriteRend.sortingOrder = _sortingOrder;
 
-        //if pathtype is goal
-        if(_pathType == PathType.goal)
+        //checking path type
+        switch(_pathType)
         {
+            case PathType.goal:
             //then set goal for map info
             _mapInfo.targetNode = _spawnedNode;
-            
+            break;
+
+            case PathType.start:
+            //then set goal for map info
+            _mapInfo.startNode = _spawnedNode;
+            break;
         }
     }
 
@@ -166,7 +177,7 @@ public class AStarMapGenerator : OdinEditorWindow
     /// <param name="_x"> x position </param>
     /// <param name="_y"> y position </param>
     /// <param name="_color"> color of the obstacle </param>
-    private GameObject CreateNodes_ObjectSpawner(Color _color,string _name)
+    private GameObject CreateNodes_ObjectSpawner(Color _color,string _name,int _sortingOrder)
     {
         //create new object with name wall
         GameObject _object = new GameObject (_name);
@@ -183,6 +194,8 @@ public class AStarMapGenerator : OdinEditorWindow
 
         //set sprite to sprite renderer
         _objectSpriteRenderer.sprite = _objectSprite;
+        //set sorting order
+        _objectSpriteRenderer.sortingOrder = _sortingOrder;
         //set color to sprite renderer
         _objectSpriteRenderer.color = _color;
 
@@ -250,4 +263,5 @@ public enum PathType
 {
     path,
     goal,
+    start,
 }
