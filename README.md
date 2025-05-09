@@ -30,12 +30,15 @@ A new window shall pop up with a list contanining information of<br>
 
 ![Image](https://github.com/user-attachments/assets/35029c40-78fa-42d0-b382-f14405c523db)
 
+
+<br>
+
+## HOW TO GENERATE MAP
+<ins> </ins>
 <br>
 Now you know where to navigate the window but before you can generate a map<br>
 you will need to fill up data in json file then generate it<br>
 
-## HOW TO GENERATE MAP
-<ins> </ins>
 ### Json File Template (20x20)
 ```json
 {
