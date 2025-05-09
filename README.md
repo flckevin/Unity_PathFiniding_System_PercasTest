@@ -34,6 +34,8 @@ A new window shall pop up with a list contanining information of<br>
 Now you know where to navigate the window but before you can generate a map<br>
 you will need to fill up data in json file then generate it<br>
 
+## HOW TO GENERATE MAP
+<ins> </ins>
 ### Json File Template (20x20)
 ```json
 {
@@ -62,3 +64,11 @@ you will need to fill up data in json file then generate it<br>
     ]
 }
 ```
+<br>
+Annotation: <br>
+<ul>
+  <li>ID: 0 -> for path</li>
+  <li>ID: 1 -> for obstacle</li>
+  <li>ID: 6 -> for the starting point and AI</li>
+  <li>ID: 7 -> for goal</li>
+</ul>
