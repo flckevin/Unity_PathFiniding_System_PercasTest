@@ -18,7 +18,7 @@ AI Usage : HELL NO
 # MAP GENERATION
 <ins> </ins>
 ## HOW TO OPEN TOOL WINDOWS
-<ins> </ins>
+<br>
 In order to generate a map, you can locate tool on navigation bar<br>
 then choose "QuocAnhHoangCustomTool -> AStarMapGenerator" <br>
 A new window shall pop up with a list contanining information of<br>
@@ -34,7 +34,7 @@ A new window shall pop up with a list contanining information of<br>
 <br>
 
 ## HOW TO GENERATE MAP
-<ins> </ins>
+<br>
 Now you know where to navigate the window but before you can generate a map<br>
 you will need to fill up data in json file then generate it<br>
 
