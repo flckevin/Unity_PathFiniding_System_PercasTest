@@ -34,7 +34,7 @@ A new window shall pop up with a list contanining information of<br>
 Now you know where to navigate the window but before you can generate a map<br>
 you will need to fill up data in json file then generate it<br>
 
-### Json File Template
+### Json File Template (20x20)
 ```json
 {
     "mapData":
