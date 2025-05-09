@@ -18,7 +18,7 @@ public class AStarMapGenerator : OdinEditorWindow
 
     [Header("AStar_Properties")]
     public TextAsset jsonLevel; //json file to read
-    public float aiSpeed;       //speed of ai movement
+    public float aiSpeed = 3;       //speed of ai movement
     public Vector2Int offSet;   //offset position for the whole map so it can be center at a poisiton as user like
     
     //======================== PRIVATE VAR ========================
@@ -45,6 +45,7 @@ public class AStarMapGenerator : OdinEditorWindow
         ReadJson();
         CreateNodes();
         CreateConnection();
+        CleanUp();
     }
 
     /// <summary>
@@ -52,6 +53,8 @@ public class AStarMapGenerator : OdinEditorWindow
     /// </summary>
     private void Setup()
     {
+        //clear all node list
+        if(_nodeList.Count > 0) _nodeList.Clear();
         //if there are node parent then destroy it
         if(_nodeParent != null) DestroyImmediate(_nodeParent);
         //creating new gameobject of node parent
@@ -229,7 +232,12 @@ public class AStarMapGenerator : OdinEditorWindow
         }
     }
 
-  
+    //process of cleanning up
+    private void CleanUp()
+    {
+        //making sure ai will always be at start position
+        _mapInfo.AI.transform.localPosition = _mapInfo.startNode.transform.localPosition;
+    }
     #region  ============ HELPER FUNCTIONS ============
 
     private void Helper_NodeConnector(Node from , Node to)

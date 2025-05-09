@@ -45,4 +45,16 @@ public class AIBehaviour : MonoBehaviour
             path = AStarManager.instance.GeneratedPath(currentNode,targetNode);
         }
     }
+
+    void OnDrawGizmos()
+    {
+        if(path.Count > 0)
+        {
+            Gizmos.color = Color.blue;
+            for(int i = 1; i < path.Count;i++)
+            {
+                Gizmos.DrawLine(path[i].transform.position,path[i - 1].transform.position);
+            }
+        }
+    }
 }

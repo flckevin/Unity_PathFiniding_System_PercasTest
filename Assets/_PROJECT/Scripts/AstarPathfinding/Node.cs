@@ -20,24 +20,24 @@ public class Node : MonoBehaviour
         return gScore + hScore;
     }
 
-    /// <summary>
-    /// function to draw line on gizmo to visualize which neighbour are being connect to current neighbour
-    /// </summary>
-    void OnDrawGizmos()
-    {
-        //get color
-        Gizmos.color = Color.green;
+    // /// <summary>
+    // /// function to draw line on gizmo to visualize which neighbour are being connect to current neighbour
+    // /// </summary>
+    // void OnDrawGizmos()
+    // {
+    //     //get color
+    //     Gizmos.color = Color.green;
 
-        //checking if there are any neighbour connected
-        if(neighbours.Count > 0)
-        {
-            //if there are
-            //get all the neighbour in the list
-            for(int i = 0 ; i < neighbours.Count;i++)
-            {
-                //drawline from the current neighbour to the current neighbour that being in the list
-                Gizmos.DrawLine(this.transform.position,neighbours[i].transform.position);
-            }
-        }
-    }
+    //     //checking if there are any neighbour connected
+    //     if(neighbours.Count > 0)
+    //     {
+    //         //if there are
+    //         //get all the neighbour in the list
+    //         for(int i = 0 ; i < neighbours.Count;i++)
+    //         {
+    //             //drawline from the current neighbour to the current neighbour that being in the list
+    //             Gizmos.DrawLine(this.transform.position,neighbours[i].transform.position);
+    //         }
+    //     }
+    // }
 }
