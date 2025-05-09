@@ -69,10 +69,10 @@ you will need to fill up data in json file then generate it<br>
 <br>
 Annotation: <br>
 <ul>
-  <li>ID: 0 -> for path</li>
-  <li>ID: 1 -> for obstacle</li>
-  <li>ID: 6 -> for the starting point and AI</li>
-  <li>ID: 7 -> for goal</li>
+  <li>ID: 0 -> path</li>
+  <li>ID: 1 -> obstacle</li>
+  <li>ID: 6 -> the starting point for AI and Ai will be spawning at there on generation</li>
+  <li>ID: 7 -> goal</li>
 </ul>
 <br>
 After filling up the data, you just need to navigate to the tool<br>
