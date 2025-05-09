@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEditor;
 using Sirenix.OdinInspector;
 using System;
-using Unity.Mathematics;
 public class AStarMapGenerator : OdinEditorWindow
 {
     
@@ -66,6 +65,8 @@ public class AStarMapGenerator : OdinEditorWindow
         _jsonData = JsonUtility.FromJson<RootJson>(jsonLevel.text);
     }
 
+
+    #region  ======================== CREATE NODES ========================
     /// <summary>
     /// function to create nodes base on given json data
     /// </summary>
@@ -81,27 +82,78 @@ public class AStarMapGenerator : OdinEditorWindow
                 switch(_jsonData.mapData[y].mapXPos[x])
                 {
                     case 0:
-
-                    //spawning new nodes
-                    Node _spawnedNode = Instantiate(_nodePrefab);
-                    //calculating final x postion
-                    int _x = x + offSet.x; 
-                    //calculating final y postion
-                    int _y = y + offSet.y;
-
-                    //moving node position base on given x and y position with offset position
-                    _spawnedNode.transform.position = new Vector2(_x,_y);
-                    //parenting spawned node into node parent
-                    _spawnedNode.transform.parent = _nodeParent.transform;
-                    //store that node into node list
-                    _nodeList.Add(_spawnedNode);
-
+                    //call path creator function
+                    CreateNodes_SpawnPath(x,y);
                     break;
+
+                    case 1:
+                    //create Obstacle
+                    CreateNodes_ObstacleSpawner(x,y,Color.gray);
+                    break;
+
                 }
                 
             }
         }
     }
+
+    /// <summary>
+    /// function to create path for ai
+    /// </summary>
+    /// <param name="_x">x position</param>
+    /// <param name="_y">y postiion</param>
+    private void CreateNodes_SpawnPath(int _x, int _y)
+    {
+        //spawning new nodes
+        Node _spawnedNode = Instantiate(_nodePrefab);
+        //calculating final x postion - F stand for final (fx) - Final X value
+        int _fX = _x + offSet.x; 
+        //calculating final y postion - F stand for final (fy) - Final Y value
+        int _Fy = _y + offSet.y;
+
+        //moving node position base on given x and y position with offset position
+        _spawnedNode.transform.position = new Vector2(_fX,_Fy);
+        //parenting spawned node into node parent
+        _spawnedNode.transform.parent = _nodeParent.transform;
+        //store that node into node list
+        _nodeList.Add(_spawnedNode);
+    }
+    
+    /// <summary>
+    /// function to create node obstacle and image with it 
+    /// </summary>
+    /// <param name="_x"> x position </param>
+    /// <param name="_y"> y position </param>
+    /// <param name="_color"> color of the obstacle </param>
+    private void CreateNodes_ObstacleSpawner(int _x, int _y,Color _color)
+    {
+        //create new object with name wall
+        GameObject wall_G = new GameObject ("Wall");
+        //add sprite renderer into it so we can render sprite
+        SpriteRenderer spriteRenderer = wall_G.AddComponent<SpriteRenderer> ();
+        //create new texture so we can have an image
+        Texture2D texture = new Texture2D(100,100);
+        //set pixel for that whole texture with chosen color
+        texture.SetPixel(0, 0, _color);
+        //apply all of it into sprite renderer
+        texture.Apply();
+        //create new sprite so we can put it into renderer
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f,0.5f));
+
+        //set sprite to sprite renderer
+        spriteRenderer.sprite = sprite;
+        //set color to sprite renderer
+        spriteRenderer.color = _color;
+
+        //set position for the wall
+        wall_G.transform.position = new Vector2(_x,_y);
+        //set parent for the wall
+        wall_G.transform.parent = _nodeParent.transform;
+    }
+    
+
+    #endregion
+
 
     /// <summary>
     /// function to create connection on surrounding neighbour in current node
