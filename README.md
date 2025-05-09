@@ -74,3 +74,9 @@ Annotation: <br>
   <li>ID: 6 -> for the starting point and AI</li>
   <li>ID: 7 -> for goal</li>
 </ul>
+<br>
+After filling up the data, you just need to navigate to the tool<br>
+Put the Json file into the "Json Level" in the tool and maggiiiic<br>
+<br>
+
+![Image](https://github.com/user-attachments/assets/4bb4547b-e28c-4a03-b9d6-b3c874619fd5)
