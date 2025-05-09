@@ -12,7 +12,6 @@ AI Usage : HELL NO
 ![Image](https://github.com/user-attachments/assets/f53d13c0-4a1b-426e-a92f-3feb43dacf30)
 
 ![Image](https://github.com/user-attachments/assets/c569fef0-ed87-455a-b09f-5a19fe1d841b)
-![Image](https://github.com/user-attachments/assets/35029c40-78fa-42d0-b382-f14405c523db)
 
 <br>
 
@@ -29,4 +28,4 @@ A new window shall pop up with a list contanining information of<br>
   <li>Off set -> which is off set for x and y axis of the map position</li>
 </ol>
 
-
+![Image](https://github.com/user-attachments/assets/35029c40-78fa-42d0-b382-f14405c523db)
