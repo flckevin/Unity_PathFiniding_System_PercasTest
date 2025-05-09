@@ -17,3 +17,11 @@ AI Usage : HELL NO
 
 # MAP GENERATION
 <ins> </ins>
+In order to generate a map, you can locate tool on navigation bar<br>
+then choose "QuocAnhHoangCustomTool -> AStarMapGenerator" <br>
+A new window shall pop up with a list contanining information of<br>
+<li>
+  Json Level -> which json file to put it in
+  AI Speed -> speed of AI Movement
+  Off set -> which is off set for x and y axis of the map position
+</li>
