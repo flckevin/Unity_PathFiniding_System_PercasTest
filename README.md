@@ -17,6 +17,8 @@ AI Usage : HELL NO
 
 # MAP GENERATION
 <ins> </ins>
+## HOW TO OPEN TOOL WINDOWS
+<ins> </ins>
 In order to generate a map, you can locate tool on navigation bar<br>
 then choose "QuocAnhHoangCustomTool -> AStarMapGenerator" <br>
 A new window shall pop up with a list contanining information of<br>
